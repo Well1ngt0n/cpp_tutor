@@ -1,0 +1,24 @@
+{% load static %}
+{% include "cpp_tutor/header.html" %}
+<div class="container">
+    <div class="title-1 text-blue"
+    ">
+    Учебник C++
+</div>
+<div class="text-container" style="width: 75%; font-size: 20px;">
+    <p>Курс освоения языка C++ разбит на блоки по темам. В каждом блоке вам будет предложена теоретическая часть и
+        задачи по ней. К задачам приложен редактор, где соотвественно можно написать свое решение и отправить на
+        проверку, результаты тестирования будут доступны сразу на всех тестах</p>
+</div>
+</div>
+<div class="container">
+    <div class="adaptive-block-4-container">
+        {% for elem in themes %}
+            <a class="adaptive-block-4 theme-btn" href="/themes/{{ elem.link }}">
+                {{ elem.name }}
+                <p><span class="text-blue">{{ elem.en }}</span></p>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% include "cpp_tutor/footer.html" %}

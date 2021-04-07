@@ -1,0 +1,128 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "cpp_tutor/style.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script src="https://kit.fontawesome.com/a2de54a718.js" crossorigin="anonymous"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
+    {% csrf_token %}
+    <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        });
+    </script>
+</head>
+<body>
+
+<header>
+    <div class="logo"></div>
+    <input type="checkbox" id="header-check">
+    <label for="header-check">
+        <ul id="burger">
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </label>
+    <label for="header-check" class="close-header"><i class="fa fa-times" aria-hidden="true"></i></label>
+    <ul id="header">
+        <li><a href="">Главная</a></li>
+        <li><a href="">Учебник</a></li>
+
+        {% if not login %}
+            <li><label for='authorization-check'><a class='account-btn'>Аккаунт</a></label><input type='checkbox'
+                                                                                                  id='authorization-check'
+                                                                                                  style='display: none;'>
+                <div class='account'>
+                    <div id='account-menu'>
+                        <input type="radio" id='auto-check' name="layout" checked>
+                        <label for='auto-check' class='account-menu auto'>Авторизация</label>
+                        <input type="radio" id='reg-check' name="layout">
+                        <label for='reg-check' class='account-menu reg'>Регистрация</label>
+
+                        <div class='auto-cont cont'>
+                            <form id="auto-submit">
+                                <input type="text" class="login-password-form" id="login-auto" maxsize="30"
+                                       placeholder="Логин" required>
+                                <input type="password" class="login-password-form" id="password-auto"
+                                       placeholder="Пароль" maxsize="30" required>
+                                <input type="submit" class="submit-btn">
+                            </form>
+                            <p id='auto-ans' class='answer'></p>
+                            <label class='bfme-button bfme-button-auto' for='authorization-check'>закрыть</label>
+                            <script>
+                                $('#auto-submit').submit(function (e) {
+                                    e.preventDefault();
+                                    $.ajax({
+                                        url: '/handler/',
+                                        type: 'POST',
+                                        data: {
+                                            action: "auth",
+                                            login: $('#login-auto').val(),
+                                            password: $('#password-auto').val()
+                                        },
+                                    }).done(function (data) {
+                                        //alert(data);
+                                        //data = JSON.parse(data);
+                                        if (data.answer == "success") {
+                                            location.reload();
+                                        } else {
+                                            $('#auto-ans').html(data.error);
+                                        }
+                                    });
+                                    $('#login-auto').val('');
+                                    $('#password-auto').val('');
+                                    return false;
+                                });
+                            </script>
+                        </div>
+                        <div class='reg-cont cont'>
+                            <form id="reg-submit">
+                                <input type="text" class="login-password-form" id="login-reg" placeholder="Логин"
+                                       required>
+                                <input type="email" class="login-password-form" id="email-reg" placeholder="email"
+                                       required>
+                                <input type="password" class="login-password-form" id="password-reg"
+                                       placeholder="Пароль" required>
+                                <input type="submit" class="submit-btn">
+                            </form>
+                            <p id='reg-ans' class='answer'></p>
+                            <script>
+                                $('#reg-submit').submit(function (e) {
+                                    e.preventDefault();
+                                    $.ajax({
+                                        url: '/handler/',
+                                        type: 'POST',
+                                        data: {
+                                            action: "reg",
+                                            login: $('#login-reg').val(),
+                                            email: $('#email-reg').val(),
+                                            password: $('#password-reg').val()
+                                        },
+                                    }).done(function (data) {
+                                        if (data.answer == "success") {
+                                            location.reload();
+                                        } else {
+                                            $('#reg-ans').html(data.error);
+                                        }
+                                    });
+                                    $('#login-reg').val('');
+                                    $('#password-reg').val('');
+                                    return false;
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <li><a href="">{{ login }}</a></li>
+        {% endif %}
+
+    </ul>
+</header>
