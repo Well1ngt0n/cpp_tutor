@@ -74,7 +74,25 @@ class ThemeView(TemplateView):
             voc['login'] = False
         theme = Themes.objects.all().filter(link=theme_name)
         if len(theme) == 0:
-            return Http404()
+            raise Http404
         theme = theme[0]
         voc['theme'] = {'theory': theme.theory, 'name': theme.name}
+        return render(request, self.template_name, voc)
+
+
+class TaskView(TemplateView):
+    template_name = 'cpp_tutor/task.html'
+
+    def get(self, request, task_id):
+        voc = {}
+        try:
+            voc['login'] = request.session['login']
+        except KeyError:
+            voc['login'] = False
+        task = Tasks.objects.all().filter(id=task_id)
+        if len(task) == 0:
+            raise Http404
+        task = task[0]
+        voc['task'] = {'name': task.name, 'text': task.text, 'difficulty': task.difficulty}
+        # voc['tests'] = ...
         return render(request, self.template_name, voc)

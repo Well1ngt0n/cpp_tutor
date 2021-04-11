@@ -1,0 +1,55 @@
+.line {
+    display: flex;
+    height: 15px;
+    font-size: 15px;
+}
+
+.tab {
+    margin: 0;
+}
+
+.blue {
+    color: blue;
+}
+
+.gray {
+    color: gray;
+}
+
+.red {
+    color: red;
+}
+
+.orange {
+    color: orange;
+}
+
+#input {
+    opacity: 0;
+}
+
+#editor {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    margin: auto;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+#cursor {
+    width: 1px;
+    height: 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: black;
+}
+
+#text {
+    font-size: 15px;
+    font-family: Arial;
+    width: fit-content;
+    display: none;
+}

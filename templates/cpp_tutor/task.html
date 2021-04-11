@@ -1,0 +1,27 @@
+{% include 'cpp_tutor/header.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "cpp_tutor/redactor.css" %}">
+<body>
+    <div class="container">
+        <pre id="text"></pre>
+        <div id="editor">
+            <div id="cursor"></div>
+            <div id="lines"></div>
+        </div>
+        <div id="textarea-container"><textarea id="input"></textarea></div>
+        <div id="start-btn">Запустить</div>
+        <script src="redactor.js"></script>
+        <div id="question-answer">
+            <input type="radio" name="switch-input" id="input-check" class="check" checked>
+            <input type="radio" name="switch-input" id="output-check" class="check">
+            <label for="input-check"></label>
+            <label for="output-check"></label>
+            <textarea id="input-block"></textarea>
+            <textarea id="output"></textarea>
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+{% include 'cpp_tutor/footer.html' %}
