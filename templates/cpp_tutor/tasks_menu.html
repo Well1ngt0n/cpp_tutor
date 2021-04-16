@@ -1,0 +1,10 @@
+<nav class="tasks-menu">
+    <a class="theory" href="/themes/{{ theme.link }}">{{ theme.name }}</a>
+    {% for task in tasks %}
+        {% if task.id == cur %}
+            <a class="task cur-task" href="/themes/tasks/{{ task.id }}">{{ task.name }}</a>
+        {% else %}
+            <a class="task" href="/themes/tasks/{{ task.id }}">{{ task.name }}</a>
+        {% endif %}
+    {% endfor %}
+</nav>

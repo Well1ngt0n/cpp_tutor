@@ -1,0 +1,29 @@
+{% include "cpp_tutor/header.html" %}
+{% if admin %}
+    <form method="post" enctype="multipart/form-data" class="upload-task">
+        {% csrf_token %}
+        <label for="task-name" class="block">Название задачи</label>
+        <input type="text" name="name" class="block" id="task-name">
+        <label for="num-ex-tests" class="block">Кол-во тестов-примеров</label>
+        <input type="number" name="num-example-tests" id="num-ex-tests" class="block">
+        <p class="block">Загрузить тесты (файл формата .zip)</p>
+        <label for="archive" class="block upload-label">
+            <div id="file-indicator">Файл не выбран</div>
+            <div class="upload-btn">Загрузить файл <i class="fa fa-upload" aria-hidden="true"></i></div>
+        </label>
+        <input type="file" name="archive" id="archive" class="block">
+        <input type="submit" class="block submit-btn">
+        <script>
+            $(document).ready(function () {
+
+                $('#archive').change(function () {
+                    var filename = $('#archive')[0].files.length ? $('#archive')[0].files[0].name : "Файл не выбран";
+                    $('#file-indicator').text(filename);
+                });
+
+            });
+
+        </script>
+    </form>
+{% endif %}
+{% include "cpp_tutor/footer.html" %}

@@ -5,3 +5,4 @@ from .models import *
 
 admin.site.register(Themes)
 admin.site.register(Tasks)
+admin.site.register(TasksConnectionThemes)

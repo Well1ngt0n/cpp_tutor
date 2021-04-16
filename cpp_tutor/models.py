@@ -20,3 +20,11 @@ class Tasks(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TasksConnectionThemes(models.Model):
+    id_task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
+    id_theme = models.ForeignKey(Themes, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)

@@ -432,10 +432,104 @@ footer {
     color: #7676b7;
     text-decoration: none;
 }
-.theme-btn{
+
+.theme-btn {
     text-decoration: none;
     transition: all 0.3s;
 }
-.theme-btn:hover{
+
+.theme-btn:hover {
     box-shadow: 0 0 10px gray;
+}
+
+.tasks-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 5fr 2fr;
+}
+
+.tasks-menu {
+    width: 80%;
+    height: fit-content;
+    margin: 0 auto;
+}
+
+.tasks-menu a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.task {
+    background: white;
+    color: black;
+}
+
+.cur-task {
+    background: lightsteelblue;
+    color: white;
+}
+
+.task:hover {
+    background: lightsteelblue;
+    color: white;
+}
+
+.theory {
+    background: #7676b7;
+    color: white;
+}
+
+.theory:hover {
+    background: #4949a0;
+}
+
+.upload-task .block {
+    margin: 10px auto;
+    display: block;
+    text-align: center;
+}
+
+.upload-task {
+    width: 350px;
+    height: fit-content;
+    margin: auto;
+}
+.upload-task input[type=file]{
+    display: none;
+}
+
+.upload-task input[type=text], input[type=number] {
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+.upload-label {
+    display: flex!important;
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid #7676b7;
+}
+.upload-label div {
+    padding: 5px 10px;
+}
+
+#file-indicator {
+    background: white;
+    color: black;
+}
+
+.upload-btn {
+    display: block;
+    width: fit-content;
+    color: white;
+    background: #7676b7;
+    transition: all 0.3s;
+}
+.upload-btn:hover{
+    background: #4949a0;
 }

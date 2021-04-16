@@ -1,3 +1,15 @@
 {% include "cpp_tutor/header.html" %}
-{{ theme.name }}
+{% load static %}
+<link rel="stylesheet" href="{% static "cpp_tutor/redactor.css" %}">
+<body>
+    <div class="tasks-container">
+        <div class="tasks-menu-container">
+            {% include "cpp_tutor/tasks_menu.html" %}
+        </div>
+        <div class="redactor-container">
+            {{ theme.theory }}
+        </div>
+        <div></div>
+    </div>
+</body>
 {% include "cpp_tutor/footer.html" %}

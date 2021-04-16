@@ -1,5 +1,9 @@
+import os
+from zipfile import ZipFile
+
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -76,6 +80,10 @@ class ThemeView(TemplateView):
         if len(theme) == 0:
             raise Http404
         theme = theme[0]
+        tasks = TasksConnectionThemes.objects.all().filter(id_theme=theme.id)
+        voc['tasks'] = []
+        for task in tasks:
+            voc['tasks'].append({'id': task.id_task.id, 'name': task.id_task.name})
         voc['theme'] = {'theory': theme.theory, 'name': theme.name}
         return render(request, self.template_name, voc)
 
@@ -89,10 +97,49 @@ class TaskView(TemplateView):
             voc['login'] = request.session['login']
         except KeyError:
             voc['login'] = False
+        voc['cur'] = task_id
         task = Tasks.objects.all().filter(id=task_id)
         if len(task) == 0:
             raise Http404
         task = task[0]
         voc['task'] = {'name': task.name, 'text': task.text, 'difficulty': task.difficulty}
-        # voc['tests'] = ...
+        theme = TasksConnectionThemes.objects.all().filter(id_task=task_id)
+        if len(theme) == 0:
+            raise Http404
+        theme = theme[0].id_theme
+        voc['theme'] = {'name': theme.name, 'link': theme.link}
+        tasks = TasksConnectionThemes.objects.all().filter(id_theme=theme.id)
+        voc['tasks'] = []
+        for task in tasks:
+            voc['tasks'].append({'id': task.id_task.id, 'name': task.id_task.name})
         return render(request, self.template_name, voc)
+
+
+def upload_task(request):
+    template_name = 'cpp_tutor/upload_task.html'
+    voc = {}
+    try:
+        voc['login'] = request.session['login']
+        cur_user = User.objects.all().filter(username=request.session['login'])[0]
+        voc['admin'] = cur_user.is_superuser
+    except Exception:
+        voc['login'] = voc['admin'] = False
+    if request.method == "POST" and request.FILES['archive']:
+        file = request.FILES['archive']
+        if file.name.split('.')[-1] == 'zip':
+            fs = FileSystemStorage(location='media/zip_examples')
+            fs.save('archive.zip', file)
+            with ZipFile('media/zip_examples/archive.zip') as zipfile:
+                for i, test in enumerate(zipfile.namelist()):
+                    in_out = test.split('.')[-1]
+                    task_id = Tasks.objects.latest("id").id
+                    try:
+                        os.mkdir(f'media/tests/{task_id}')
+                    except Exception:
+                        pass
+                    test_write = open(f'media/tests/{task_id}/{i+1}.{in_out}', 'w+')
+                    test_file = zipfile.open(test, mode='r').read().decode('utf-8')
+                    test_write.write(test_file)
+                    test_write.close()
+            os.remove('media/zip_examples/archive.zip')
+    return render(request, template_name, voc)
