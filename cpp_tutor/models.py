@@ -16,7 +16,7 @@ class Themes(models.Model):
 class Tasks(models.Model):
     name = models.TextField(verbose_name='Название')
     text = models.TextField(verbose_name='Текст задачи')
-    difficulty = models.IntegerField(verbose_name='Сложность')
+    difficulty = models.IntegerField(verbose_name='Количество претестов')  # Надо бы столбец переименовать
 
     def __str__(self):
         return self.name

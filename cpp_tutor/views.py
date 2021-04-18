@@ -103,6 +103,14 @@ class TaskView(TemplateView):
             raise Http404
         task = task[0]
         voc['task'] = {'name': task.name, 'text': task.text, 'difficulty': task.difficulty}
+        voc['pretests'] = []
+        for i in range(task.difficulty):
+            try:
+                pretest_in = open(f"media/tests/{task.id}/{i + 1}.in", mode='rt')
+                pretest_out = open(f"media/tests/{task.id}/{i + 1}.out", mode='rt')
+                voc['pretests'].append({"in": pretest_in.read(), "out": pretest_out.read()})
+            except Exception:
+                pass
         theme = TasksConnectionThemes.objects.all().filter(id_task=task_id)
         if len(theme) == 0:
             raise Http404
@@ -130,16 +138,26 @@ def upload_task(request):
             fs = FileSystemStorage(location='media/zip_examples')
             fs.save('archive.zip', file)
             with ZipFile('media/zip_examples/archive.zip') as zipfile:
-                for i, test in enumerate(zipfile.namelist()):
+                i = 1
+                for test in zipfile.namelist():
                     in_out = test.split('.')[-1]
-                    task_id = Tasks.objects.latest("id").id
-                    try:
-                        os.mkdir(f'media/tests/{task_id}')
-                    except Exception:
-                        pass
-                    test_write = open(f'media/tests/{task_id}/{i+1}.{in_out}', 'w+')
-                    test_file = zipfile.open(test, mode='r').read().decode('utf-8')
-                    test_write.write(test_file)
-                    test_write.close()
+                    if in_out in ("in", "out"):
+                        task_id = Tasks.objects.latest("id").id + 1
+                        try:
+                            os.mkdir(f'media/tests/{task_id}')
+                        except Exception:
+                            pass
+                        test_write = open(f'media/tests/{task_id}/{i}.{in_out}', 'w+')
+                        test_file = zipfile.open(test, mode='r').read().decode('utf-8')
+                        test_write.write(test_file)
+                        test_write.close()
+                        if in_out == "out":
+                            i += 1
             os.remove('media/zip_examples/archive.zip')
+            new_task = Tasks(name=request.POST['name'], text=request.POST['text'],
+                             difficulty=request.POST['num-example-tests'])
+            new_task.save()
+            voc['error'] = 'Загрузка задачи прошла успешно'
+        else:
+            voc['error'] = 'Архив не в расширении .zip'
     return render(request, template_name, voc)

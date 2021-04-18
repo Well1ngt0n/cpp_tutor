@@ -7,7 +7,16 @@
             {% include "cpp_tutor/tasks_menu.html" %}
         </div>
         <div class="redactor-container">
-            <pre id="text"></pre>
+            <h1 id="task-name">{{ task.name }}</h1>
+            <pre id="task-text">{{ task.text }}</pre>
+            <div class="pre-tests">
+                {% for pretest in pretests %}
+                    <div class="pre-test">
+                        <div class="test-in-out-block"><pre class="test-in-out-text">{{ pretest.in }}</pre></div>
+                        <div class="test-in-out-block"><pre class="test-in-out-text">{{ pretest.out }}</pre></div>
+                    </div>
+                {% endfor %}
+            </div>
             <div id="editor">
                 <div id="cursor"></div>
                 <div id="lines"></div>
