@@ -113,6 +113,7 @@
                                     });
                                     $('#login-reg').val('');
                                     $('#password-reg').val('');
+                                    $('#email-reg').val('');
                                     return false;
                                 });
                             </script>
@@ -121,7 +122,22 @@
                 </div>
             </li>
         {% else %}
-            <li><a href="">{{ login }}</a></li>
+            <li><a id="exit">{{ login }}</a></li>
+            <script>
+                $("#exit").on("click", function () {
+                    $.ajax({
+                        url: "/handler/",
+                        type: "POST",
+                        data: {action: "exit"},
+                    }).done(function (data) {
+                        if (data.answer == "success") {
+                            location.reload();
+                        } else{
+                            alert("Возникла непредвиденная ошибка, обратитесь к разработчику");
+                        }
+                    });
+                });
+            </script>
         {% endif %}
 
     </ul>

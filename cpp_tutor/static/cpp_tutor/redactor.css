@@ -35,7 +35,7 @@
     width: 100%;
     height: 50vh;
     margin: auto;
-    border: 1px solid black;
+    border: 1px solid gray;
     overflow: auto;
 }
 
@@ -53,4 +53,81 @@
     font-family: Arial;
     width: fit-content;
     display: none;
+}
+
+.pre-test {
+    width: 100%;
+    border: 1px solid gray;
+    margin: 10px 0;
+}
+
+.test-in-out-block {
+    height: fit-content;
+}
+
+.test-in-out-block pre, p {
+    padding: 10px;
+    display: block;
+    margin: 0;
+}
+
+.test-in-out-block p {
+    background: #e5f8f8;
+}
+
+.editor-btns {
+    display: flex;
+    width: 100%;
+    background: lightsteelblue;
+    border: 1px solid gray;
+    margin-top: -1px;
+}
+
+.editor-btn {
+    margin: 0;
+    font-size: 15px;
+}
+
+#input-block, #output {
+    width: 100%;
+    display: none;
+    height: 100px;
+}
+
+#input-check:checked ~ #input-block {
+    display: block;
+}
+
+#output-check:checked ~ #output {
+    display: block;
+}
+
+.in-out-btn {
+    display: block;
+    font-size: 13px;
+    margin: 0;
+    padding: 5px 10px;
+    background: #8bb0e0;
+    color: white;
+    transition: all 0.3s;
+}
+
+.in-out-btn:hover {
+    background: #7676b7 !important;
+}
+
+#input-check:checked ~ #in-btn {
+    background: #7fa3d2;
+}
+
+#output-check:checked ~ #out-btn {
+    background: #7fa3d2;
+}
+
+#question-answer {
+    display: flex;
+}
+
+#question-answer textarea {
+    border: 1px solid gray;
 }

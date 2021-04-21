@@ -7,7 +7,10 @@
             {% include "cpp_tutor/tasks_menu.html" %}
         </div>
         <div class="redactor-container">
-            {{ theme.theory }}
+            <div class="theme-theory-container">
+                <h1>{{ theme.name }}</h1>
+                <pre>{{ theme.theory }}</pre>
+            </div>
         </div>
         <div></div>
     </div>

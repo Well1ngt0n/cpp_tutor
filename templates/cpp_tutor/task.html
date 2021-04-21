@@ -7,13 +7,15 @@
             {% include "cpp_tutor/tasks_menu.html" %}
         </div>
         <div class="redactor-container">
+            <pre id="text"></pre>
             <h1 id="task-name">{{ task.name }}</h1>
             <pre id="task-text">{{ task.text }}</pre>
             <div class="pre-tests">
+                <h4>Примеры:</h4>
                 {% for pretest in pretests %}
                     <div class="pre-test">
-                        <div class="test-in-out-block"><pre class="test-in-out-text">{{ pretest.in }}</pre></div>
-                        <div class="test-in-out-block"><pre class="test-in-out-text">{{ pretest.out }}</pre></div>
+                        <div class="test-in-out-block"><p>Ввод:</p><pre class="test-in-out-text">{{ pretest.in }}</pre></div>
+                        <div class="test-in-out-block"><p>Вывод:</p><pre class="test-in-out-text">{{ pretest.out }}</pre></div>
                     </div>
                 {% endfor %}
             </div>
@@ -22,15 +24,15 @@
                 <div id="lines"></div>
             </div>
             <div id="textarea-container"><textarea id="input"></textarea></div>
-            <div id="start-btn">Запустить</div>
             <script src="{% static "cpp_tutor/redactor.js" %}"></script>
             <div id="question-answer">
                 <input type="radio" name="switch-input" id="input-check" class="check" checked>
                 <input type="radio" name="switch-input" id="output-check" class="check">
-                <label for="input-check"></label>
-                <label for="output-check"></label>
+                <label for="input-check" class="in-out-btn" id="in-btn">input</label>
+                <label for="output-check" class="in-out-btn" id="out-btn">output</label>
+
                 <textarea id="input-block"></textarea>
-                <textarea id="output"></textarea>
+                <textarea id="output" readonly></textarea>
             </div>
         </div>
         <div></div>

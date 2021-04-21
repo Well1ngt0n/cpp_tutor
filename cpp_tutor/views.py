@@ -24,6 +24,7 @@ class Index(TemplateView):
 
 def handler(request):
     action = request.POST['action']
+    ans = {}
     if action == 'auth':
         try:
             user = User.objects.all().filter(username=request.POST['login'])
@@ -36,7 +37,6 @@ def handler(request):
             ans = {'answer': 'success'}
         except ValueError as e:
             ans = {'answer': 'error', 'error': str(e)}
-        return JsonResponse(ans)
     elif action == 'reg':
         try:
             user = User.objects.all().filter(username=request.POST['login'])
@@ -48,7 +48,10 @@ def handler(request):
             ans = {'answer': 'success'}
         except ValueError as e:
             ans = {'answer': 'error', 'error': str(e)}
-        return JsonResponse(ans)
+    elif action == 'exit':
+        request.session['login'] = False
+        ans = {'answer': 'success'}
+    return JsonResponse(ans)
 
 
 class ThemesView(TemplateView):
@@ -84,7 +87,7 @@ class ThemeView(TemplateView):
         voc['tasks'] = []
         for task in tasks:
             voc['tasks'].append({'id': task.id_task.id, 'name': task.id_task.name})
-        voc['theme'] = {'theory': theme.theory, 'name': theme.name}
+        voc['theme'] = {'theory': theme.theory, 'name': theme.name, 'link': theme.link}
         return render(request, self.template_name, voc)
 
 
