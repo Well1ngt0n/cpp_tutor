@@ -155,7 +155,7 @@ html, body, label {
     margin-left: 100px;
     width: 70px;
     height: 70px;
-    background-image: url(logo-test.png);
+    /* background-image: url(logo-test.png); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
