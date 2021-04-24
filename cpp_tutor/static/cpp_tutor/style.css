@@ -504,7 +504,13 @@ footer {
     display: none;
 }
 
-.upload-task input[type=text], input[type=number] {
+.upload-task input[type=text] {
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+.upload-task input[type=number] {
     border-radius: 5px;
     padding: 5px 10px;
     width: 100%;
@@ -543,7 +549,11 @@ footer {
     width: fit-content;
 }
 
-.theme-theory-container pre, h1 {
+.theme-theory-container pre {
+    width: fit-content;
+}
+
+.theme-theory-container h1 {
     width: fit-content;
 }
 

@@ -1,0 +1,1 @@
+web: gunicorn cpp-tutor-work.wsgi --log-file -
