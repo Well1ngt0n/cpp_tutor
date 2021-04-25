@@ -1,3 +1,3 @@
-from yandex_3_project.settings import STATIC_ROOT
+import os
 
-print(STATIC_ROOT)
+float(2e-10)

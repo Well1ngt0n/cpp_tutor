@@ -406,6 +406,7 @@ header {
     width: fit-content;
     height: fit-content;
     margin: 0 auto;
+    text-align: center;
 }
 
 .btn:hover {
@@ -571,4 +572,17 @@ footer {
     .theme-theory-container pre {
         font-size: 10px;
     }
+}
+.tests-input{
+    width: 100%;
+}
+.test-upload{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 5px 0;
+}
+.complete{
+    background: #51bd72!important;
+    color: white!important;
 }

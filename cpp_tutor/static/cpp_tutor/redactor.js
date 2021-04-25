@@ -207,26 +207,47 @@ $("#editor").on('click', '.line', function (e) {
     // Таким образом ищем положение курсора
     // Вы гениальны
 });
-$("#start-btn").on("click", function () {
-    console.log($("#editor").val());
-    var to_compile = {
-        "LanguageChoice": "7",
-        "Program": lines.join("\n"),
-        "Input": $("#input-block").val(),
-        "CompilerArgs": "-Wall -std=c++14 -O2 -o a.out source_file.cpp"
-    };
+
+$("#start-testing-btn").on("click", function () {
     $.ajax({
-        url: "https://rextester.com/rundotnet/api",
-        type: "POST",
-        data: to_compile
-    }).done(function (data) {
-        alert(JSON.stringify(data));
-        if (data['Result']) {
-            $("#output").val(data['Result']);
-        } else {
-            $("#output").val(data['Errors']);
+        url: '/handler/',
+        type: 'POST',
+        data: {
+            action: 'check-task',
+            id_task: $("#id-task").text(),
+            script: lines.join("\n"),
         }
-    }).fail(function (data, err) {
-        $("#error").val(err);
+    }).done(function (data) {
+        $("#testing-system-answer").empty();
+        if (data.verdict === "complete solution") {
+            $("#testing-system-answer").append("<p>complete solution</p>");
+        } else {
+            $("#testing-system-answer").append("<p>" + data.verdict + "</p>");
+            $("#testing-system-answer").append("<p>Input: " + data.input_p + "</p>");
+            $("#testing-system-answer").append("<p>Program output: " + data.output_p + "</p>");
+            $("#testing-system-answer").append("<p>Correct output: " + data.correct_output + "</p>");
+        }
+
+    });
+});
+
+$("#start-btn").on("click", function(){
+    $.ajax({
+        url: '/handler/',
+        type: 'POST',
+        data: {
+            action: 'run-code',
+            script: lines.join('\n'),
+            inpt: $("#input-block").val(),
+        }
+    }).done(function(data){
+        if (data.answer === "error"){
+            $("#output").text(data.error);
+            $("#output-check").prop('checked', true);
+        }
+        else{
+            $("#output").text(data.output);
+            $("#output-check").prop('checked', true);
+        }
     });
 });
