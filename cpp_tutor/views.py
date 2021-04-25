@@ -180,7 +180,7 @@ class ThemeView(TemplateView):
         try:
             voc['login'] = request.session['login']
             user = User.objects.all().filter(username=voc['login'])[0]
-        except KeyError:
+        except Exception:
             voc['login'] = False
         theme = Themes.objects.all().filter(link=theme_name)
         if len(theme) == 0:
@@ -207,7 +207,7 @@ class TaskView(TemplateView):
         try:
             voc['login'] = request.session['login']
             user = User.objects.all().filter(username=voc['login'])[0]
-        except KeyError:
+        except Exception:
             voc['login'] = False
         voc['cur'] = task_id
         task = Tasks.objects.all().filter(id=task_id)
