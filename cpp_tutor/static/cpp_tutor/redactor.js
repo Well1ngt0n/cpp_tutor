@@ -209,6 +209,8 @@ $("#editor").on('click', '.line', function (e) {
 });
 
 $("#start-testing-btn").on("click", function () {
+    $("#testing-system-answer").empty();
+    $("#testing-system-answer").append("<p>На проверке...</p>");
     $.ajax({
         url: '/handler/',
         type: 'POST',
