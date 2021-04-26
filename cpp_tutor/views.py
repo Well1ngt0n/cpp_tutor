@@ -216,13 +216,10 @@ class TaskView(TemplateView):
         task = task[0]
         voc['task'] = {'id': task_id, 'name': task.name, 'text': task.text, 'difficulty': task.difficulty}
         voc['pretests'] = []
-        for i in range(task.difficulty):
-            try:
-                pretest_in = open(f"media/tests/{task.id}/{i + 1}.in", mode='rt')
-                pretest_out = open(f"media/tests/{task.id}/{i + 1}.out", mode='rt')
-                voc['pretests'].append({"in": pretest_in.read(), "out": pretest_out.read()})
-            except Exception:
-                pass
+        pretests = ExampleTests.objects.all().filter(id_task=task)
+        for pretest in pretests:
+            voc['pretests'].append({'in': pretest.input, 'out': pretest.output})
+
         theme = TasksConnectionThemes.objects.all().filter(id_task=task_id)
         if len(theme) == 0:
             raise Http404
