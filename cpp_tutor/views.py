@@ -140,7 +140,7 @@ def handler(request):
                             lst.append('wa')
                             Verdicts(id_task=Tasks.objects.all().filter(id=task_id)[0],
                                      id_user=User.objects.all().filter(username=request.session['login'])[0],
-                                     verdict='error').save()
+                                     verdict='error', code=json['script']).save()
 
                             return JsonResponse({'tests': lst,
                                                  'verdict': f'wrong answer test {len(lst)}',
@@ -150,7 +150,8 @@ def handler(request):
                                                      [' '.join(out[i]) for i in range(len(out))]),
                                                  })
         Verdicts(id_task=Tasks.objects.all().filter(id=task_id)[0],
-                 id_user=User.objects.all().filter(username=request.session['login'])[0], verdict='ok').save()
+                 id_user=User.objects.all().filter(username=request.session['login'])[0], code=json['script'],
+                 verdict='ok').save()
         return JsonResponse(
             {'tests': lst, 'verdict': 'complete solution', 'tests_count': len(os.listdir(f'media/tests/{task_id}'))})
     return JsonResponse(ans)

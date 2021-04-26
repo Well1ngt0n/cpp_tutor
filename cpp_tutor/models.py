@@ -44,6 +44,7 @@ class Verdicts(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id_task = models.ForeignKey(Tasks, on_delete=models.CASCADE)
     verdict = models.TextField(verbose_name='Вердикт', default='ok')
+    code = models.TextField(verbose_name='Код посылки', default='')
 
     def __str__(self):
         return str(self.id)
