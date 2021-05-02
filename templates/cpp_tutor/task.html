@@ -62,20 +62,22 @@
 
                     </div>
                     <input type="checkbox" class="check" id="check-results-{{ forloop.counter }}">
-                    <label for="check-results-{{ forloop.counter }}"><p>Подробнее...</p></label>
+                    <label class="text-btn" for="check-results-{{ forloop.counter }}"><p>Подробнее...</p></label>
                     <div class="black-background"></div>
                     <div class="results" id="results-{{ forloop.counter }}">
                         <p>Код программы:</p>
                         <pre>
                             {{ verdict.code }}
                         </pre>
-                        <p>Ввод</p>
-                        <pre>{{ verdict.input }}</pre>
-                        <p>Корректный вывод</p>
-                        <pre>{{ verdict.correct }}</pre>
-                        <p>Вывод программы</p>
-                        <pre>{{ verdict.output }}</pre>
-                        <label for="check-results-{{ forloop.counter }}">Закрыть</label>
+                        {% if verdict.answer != 'ok' %}
+                            <p>Ввод</p>
+                            <pre>{{ verdict.input }}</pre>
+                            <p>Корректный вывод</p>
+                            <pre>{{ verdict.correct }}</pre>
+                            <p>Вывод программы</p>
+                            <pre>{{ verdict.output }}</pre>
+                        {% endif %}
+                        <label class="text-btn" for="check-results-{{ forloop.counter }}">Закрыть</label>
                     </div>
                 <style>
                     #check-results-{{ forloop.counter }}:checked ~ #results-{{ forloop.counter }}{
