@@ -236,18 +236,20 @@ class TaskView(TemplateView):
                 complete = Verdicts.objects.all().filter(id_task=task.id_task, id_user=user, verdict='ok')
                 if len(complete) > 0:
                     voc['tasks'][-1]['complete'] = True
-        voc['verdicts'] = []
-        verdicts = Verdicts.objects.all().filter(id_task=task.id_task, id_user=user)
-        if len(verdicts) == 0:
-            voc['verdicts'] = False
-        else:
-            for verdict in verdicts:
-                voc['verdicts'].append({'answer': verdict.verdict,
-                                        'code': verdict.code,
-                                        'input': verdict.input,
-                                        'output': verdict.output,
-                                        'correct': verdict.correct_out})
-            voc['verdicts'].reverse()
+        if voc['login']:
+            voc['verdicts'] = []
+            verdicts = Verdicts.objects.all().filter(id_task=task.id_task, id_user=user)
+            if len(verdicts) == 0:
+                voc['verdicts'] = False
+            else:
+                for verdict in verdicts:
+                    voc['verdicts'].append({'answer': verdict.verdict,
+                                            'code': verdict.code,
+                                            'input': verdict.input,
+                                            'output': verdict.output,
+                                            'correct': verdict.correct_out})
+                voc['verdicts'].reverse()
+
         return render(request, self.template_name, voc)
 
 
