@@ -25,6 +25,7 @@
             {% endfor %}
         </div>
         <div id="editor">
+            <div id="textarea-container" style="width: 0; height: 0"><textarea id="input"></textarea></div>
             <div id="cursor"></div>
             <div id="lines"></div>
         </div>
@@ -36,7 +37,7 @@
                 <p style="color: white">Для отправки решений необходимо войти в аккаунт</p>
             {% endif %}
         </div>
-        <div id="textarea-container"><textarea id="input"></textarea></div>
+
         <script src="{% static "cpp_tutor/redactor.js" %}"></script>
         <div id="question-answer">
             <input type="radio" name="switch-input" id="input-check" class="check" checked>
@@ -47,7 +48,49 @@
             <textarea id="input-block"></textarea>
             <textarea id="output" readonly></textarea>
         </div>
-        <div id="testing-system-answer"></div>
+        <div id="testing-system-answer">
+        <div class="verdicts-title"><p style="font-weight: 700">Посылки</p></div>
+        {% if verdicts %}
+            {% for verdict in verdicts %}
+                <div class="verdict">
+                    <div class="answer">
+                        {% if verdict.answer == 'ok' %}
+                            <p style="color: green">{{ verdict.answer }}</p>
+                        {% else %}
+                            <p>{{ verdict.answer }}</p>
+                        {% endif %}
+
+                    </div>
+                    <input type="checkbox" class="check" id="check-results-{{ forloop.counter }}">
+                    <label for="check-results-{{ forloop.counter }}"><p>Подробнее...</p></label>
+                    <div class="black-background"></div>
+                    <div class="results" id="results-{{ forloop.counter }}">
+                        <p>Код программы:</p>
+                        <pre>
+                            {{ verdict.code }}
+                        </pre>
+                        <p>Ввод</p>
+                        <pre>{{ verdict.input }}</pre>
+                        <p>Корректный вывод</p>
+                        <pre>{{ verdict.correct }}</pre>
+                        <p>Вывод программы</p>
+                        <pre>{{ verdict.output }}</pre>
+                        <label for="check-results-{{ forloop.counter }}">Закрыть</label>
+                    </div>
+                <style>
+                    #check-results-{{ forloop.counter }}:checked ~ #results-{{ forloop.counter }}{
+                        display: block;
+                    }
+                    #check-results-{{ forloop.counter }}:checked ~ .black-background{
+                        display: block;
+                    }
+                </style>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Вы пока еще не отправляли решения этой задачи на проверку</p>
+        {% endif %}
+        </div>
     </div>
     <div></div>
 </div>

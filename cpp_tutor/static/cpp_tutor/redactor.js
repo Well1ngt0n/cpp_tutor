@@ -209,8 +209,8 @@ $("#editor").on('click', '.line', function (e) {
 });
 
 $("#start-testing-btn").on("click", function () {
-    $("#testing-system-answer").empty();
-    $("#testing-system-answer").append("<p>На проверке...</p>");
+    // $("#testing-system-answer").empty();
+    $("#testing-system-answer").prepend("<p>На проверке...</p>");
     $.ajax({
         url: '/handler/',
         type: 'POST',
@@ -220,15 +220,16 @@ $("#start-testing-btn").on("click", function () {
             script: lines.join("\n"),
         }
     }).done(function (data) {
-        $("#testing-system-answer").empty();
-        if (data.verdict === "complete solution") {
-            $("#testing-system-answer").append("<p>complete solution</p>");
-        } else {
-            $("#testing-system-answer").append("<p>" + data.verdict + "</p>");
-            $("#testing-system-answer").append("<p>Input: " + data.input_p + "</p>");
-            $("#testing-system-answer").append("<p>Program output: " + data.output_p + "</p>");
-            $("#testing-system-answer").append("<p>Correct output: " + data.correct_output + "</p>");
-        }
+        location.reload()
+        // $("#testing-system-answer").empty();
+        // if (data.verdict === "complete solution") {
+        //     $("#testing-system-answer").append("<p>complete solution</p>");
+        // } else {
+        //     $("#testing-system-answer").append("<p>" + data.verdict + "</p>");
+        //     $("#testing-system-answer").append("<p>Input: " + data.input_p + "</p>");
+        //     $("#testing-system-answer").append("<p>Program output: " + data.output_p + "</p>");
+        //     $("#testing-system-answer").append("<p>Correct output: " + data.correct_output + "</p>");
+        // }
 
     });
 });

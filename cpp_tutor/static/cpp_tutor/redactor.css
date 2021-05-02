@@ -126,6 +126,7 @@
 
 #question-answer {
     display: flex;
+    margin-top: 10px;
 }
 
 #question-answer textarea {

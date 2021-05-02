@@ -586,3 +586,37 @@ footer {
     background: #51bd72!important;
     color: white!important;
 }
+.results{
+    position: fixed;
+    width: 50vw;
+    height: 50vh;
+    margin: auto;
+    display: none;
+    background: white;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border: 1px solid;
+    padding: 10px;
+}
+.black-background{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.70));;
+    display: none;
+}
+.verdict{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid gray;
+    margin-top: -1px;
+}
+.verdicts-title{
+    background: #e5f8f8;
+    margin-top: -1px;
+    border: 1px solid gray;
+}

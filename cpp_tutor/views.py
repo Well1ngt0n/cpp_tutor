@@ -140,7 +140,9 @@ def handler(request):
                             lst.append('wa')
                             Verdicts(id_task=Tasks.objects.all().filter(id=task_id)[0],
                                      id_user=User.objects.all().filter(username=request.session['login'])[0],
-                                     verdict='error', code=json['script']).save()
+                                     verdict='error', code=json['script'], input=json['stdin'],
+                                     output=ans['output'],
+                                     correct_out='\n'.join([' '.join(out[i]) for i in range(len(out))])).save()
 
                             return JsonResponse({'tests': lst,
                                                  'verdict': f'wrong answer test {len(lst)}',
@@ -234,6 +236,18 @@ class TaskView(TemplateView):
                 complete = Verdicts.objects.all().filter(id_task=task.id_task, id_user=user, verdict='ok')
                 if len(complete) > 0:
                     voc['tasks'][-1]['complete'] = True
+        voc['verdicts'] = []
+        verdicts = Verdicts.objects.all().filter(id_task=task.id_task, id_user=user)
+        if len(verdicts) == 0:
+            voc['verdicts'] = False
+        else:
+            for verdict in verdicts:
+                voc['verdicts'].append({'answer': verdict.verdict,
+                                        'code': verdict.code,
+                                        'input': verdict.input,
+                                        'output': verdict.output,
+                                        'correct': verdict.correct_out})
+            voc['verdicts'].reverse()
         return render(request, self.template_name, voc)
 
 
